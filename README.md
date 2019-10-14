@@ -2,7 +2,7 @@
 
 ---
 
-### The MitoSegNet an easy-to-use Python-based segmentation tool that enables biologists to use a convolutional neural network to segment objects of interest in 2d microscopy images. 
+### The MitoSegNet an easy-to-use GUI-based segmentation tool that enables biologists to use a convolutional neural network to segment objects of interest in 2d microscopy images. 
 
 ---
 
