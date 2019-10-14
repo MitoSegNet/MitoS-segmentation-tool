@@ -2,6 +2,10 @@
 
 ---
 
+### The MitoSegNet an easy-to-use Python-based segmentation tool that enables biologists to use a convolutional neural network to segment objects of interest in 2d microscopy images. 
+
+---
+
 ## Before running the MitoSegNet
 
 If you have a CUDA-capable GPU (all Nvidia GPUs from the G8x series onwards, including GeForce, Quadro and Tesla), then you will need to download the GPU-enabled version of the MitoSegNet. You will furthermore have to download 
