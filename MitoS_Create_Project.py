@@ -54,9 +54,6 @@ class CreateProject:
         file_list = os.listdir(orgpath)
         file_list_lab = os.listdir(labpath)
 
-        print(file_list)
-        print(file_list_lab)
-
         if file_list_lab[0].startswith("ground_truth_"):
 
             new_file_list_lab = []
@@ -71,9 +68,6 @@ class CreateProject:
 
                 file_list.sort()
                 new_file_list_lab.sort()
-
-                print(file_list)
-                print(new_file_list_lab)
 
                 if file_list == new_file_list_lab:
 

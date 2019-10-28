@@ -14,7 +14,9 @@ class MitoSegNet
 
 """
 
+
 import os
+import re
 import cv2
 import numpy as np
 import pandas as pd
@@ -25,12 +27,26 @@ from time import time
 from math import sqrt
 from skimage.morphology import remove_small_objects
 from scipy.ndimage import label
-from screeninfo import get_monitors
-from tkinter import *
 
-print("Train / Predict on CPU")
-os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
+class GPU_or_CPU:
+
+    def __init__(self, mode):
+
+        self.mode = mode
+
+    def ret_mode(self):
+
+        if self.mode == "GPU":
+            print("Train / Predict on GPU")
+
+        elif self.mode == "CPU":
+            print("Train / Predict on CPU")
+            os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+            os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
+
+        return self.mode
+
 
 from keras.layers import Input, concatenate, Conv2D, MaxPooling2D, UpSampling2D, Activation, BatchNormalization
 from keras.models import Model
@@ -39,8 +55,12 @@ from keras.initializers import RandomNormal as gauss
 from keras import backend as K
 from keras import losses
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger, TensorBoard
+import tensorflow as tf
 
-from Training_DataGenerator import *
+# ignoring deprecation warnings
+tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
+
+from MitoS_Training_DataGenerator import *
 
 
 class MitoSegNet:
@@ -72,7 +92,6 @@ class MitoSegNet:
 
         imgs_train = np.load(self.path + os.sep + "npydata" + os.sep +"imgs_train.npy")
         imgs_mask_train = np.load(self.path + os.sep + "npydata" + os.sep + "imgs_mask_train.npy")
-
 
         """
         # checking label data for values other than 0 or 255
@@ -116,7 +135,6 @@ class MitoSegNet:
 
         inputs = Input(shape=(self.img_rows, self.img_cols, 1))
         print(inputs.get_shape(), type(inputs))
-
 
         # core mitosegnet (modified u-net) architecture
         # batchnorm architecture (batchnorm before activation)
@@ -196,7 +214,6 @@ class MitoSegNet:
         conv6 = Conv2D(512, 3, activation='relu', padding='same',
                        kernel_initializer=gauss(stddev=sqrt(2 / (9 * 512))))(conv6)
 
-
         up7 = Conv2D(256, 2, activation='relu', padding='same',
                      kernel_initializer=gauss(stddev=sqrt(2 / (9 * 512))))(UpSampling2D(size=(2, 2))(conv6))
 
@@ -207,7 +224,6 @@ class MitoSegNet:
         conv7 = Conv2D(256, 3, activation='relu', padding='same',
                        kernel_initializer=gauss(stddev=sqrt(2 / (9 * 256))))(conv7)
 
-
         up8 = Conv2D(128, 2, activation='relu', padding='same',
                      kernel_initializer=gauss(stddev=sqrt(2 / (9 * 256))))(UpSampling2D(size=(2, 2))(conv7))
 
@@ -217,7 +233,6 @@ class MitoSegNet:
                        kernel_initializer=gauss(stddev=sqrt(2 / (9 * 128))))(merge8)
         conv8 = Conv2D(128, 3, activation='relu', padding='same',
                        kernel_initializer=gauss(stddev=sqrt(2 / (9 * 128))))(conv8)
-
 
         up9 = Conv2D(64, 2, activation='relu', padding='same',
                      kernel_initializer=gauss(stddev=sqrt(2 / (9 * 128))))(UpSampling2D(size=(2, 2))(conv8))
@@ -325,11 +340,20 @@ class MitoSegNet:
             first_ep = 0
 
         else:
-            prev_csv_file = pd.read_csv(self.path + os.sep + model_name + 'training_log.csv')
-            first_ep = len(prev_csv_file)
 
-            if prev_csv_file.shape[1] > 7:
-                prev_csv_file = prev_csv_file.drop(prev_csv_file.columns[[0]], axis=1)
+            if os.path.isfile(self.path + os.sep + model_name + 'training_log.csv'):
+
+                prev_csv = True
+
+                prev_csv_file = pd.read_csv(self.path + os.sep + model_name + 'training_log.csv')
+                first_ep = len(prev_csv_file)
+
+                if prev_csv_file.shape[1] > 7:
+                    prev_csv_file = prev_csv_file.drop(prev_csv_file.columns[[0]], axis=1)
+
+            else:
+
+                prev_csv = False
 
         csv_logger = CSVLogger(self.path + os.sep + model_name + 'training_log.csv')
 
@@ -359,7 +383,7 @@ class MitoSegNet:
             csv_file["epoch"] = list(range(1, len(csv_file) + 1))
             last_ep = len(csv_file)
 
-        if new_ex == "Existing":
+        if new_ex == "Existing" and prev_csv == True:
 
             frames = [prev_csv_file, csv_file]
             merged = pd.concat(frames, names=[])
@@ -370,17 +394,17 @@ class MitoSegNet:
 
             merged.to_csv(self.path + os.sep + model_name + 'training_log.csv')
 
+        if new_ex == "New":
 
-        info_file = open(self.path + os.sep + model_name + str(first_ep) + "-" + str(last_ep) + "_train_info.txt", "w")
-        info_file.write("Learning rate: " + str(learning_rate)+
-                        "\nBatch size: " + str(batch_size)+
-                        "\nClass balance weight factor: " + str(vbal))
-        info_file.close()
+            info_file = open(self.path + os.sep + model_name + str(first_ep) + "-" + str(last_ep) + "_train_info.txt", "w")
+            info_file.write("Learning rate: " + str(learning_rate)+
+                            "\nBatch size: " + str(batch_size)+
+                            "\nClass balance weight factor: " + str(vbal))
+            info_file.close()
 
         K.clear_session()
 
-
-    def predict(self, test_path, wmap, tile_size, model_name, pretrain, min_obj_size, ps_filter):
+    def predict(self, test_path, wmap, tile_size, model_name, pretrain, min_obj_size, ps_filter, x_res, y_res):
 
         K.clear_session()
 
@@ -732,15 +756,6 @@ class MitoSegNet:
 
                 if ps_filter == "1":
 
-                    screen_res = str(get_monitors()[0])
-                    screen_res = (screen_res.split("(")[1])
-
-                    x_res = int(screen_res.split("x")[0])
-
-                    y_res = screen_res.split("x")[1]
-                    y_res = int(y_res.split("+")[0])
-
-
                     cv2.namedWindow('Prediction', cv2.WINDOW_NORMAL)
                     cv2.namedWindow('Original', cv2.WINDOW_NORMAL)
 
@@ -765,7 +780,8 @@ class MitoSegNet:
 
                     if cv2.waitKey() == ord("s"):
                         print(org_img_list[org_img_list_index] + " saved")
-                        cv2.imwrite(test_path + os.sep + "Prediction" + os.sep + org_img_list[org_img_list_index], new_image)
+                        cv2.imwrite(test_path + os.sep + "Prediction" + os.sep + org_img_list[org_img_list_index],
+                                    new_image)
 
                     else:
                         print(org_img_list[org_img_list_index] + " discarded")
@@ -773,9 +789,14 @@ class MitoSegNet:
                     cv2.destroyAllWindows()
 
                 else:
-                    cv2.imwrite(test_path + os.sep + "Prediction" + os.sep + org_img_list[org_img_list_index], new_image)
+                    cv2.imwrite(test_path + os.sep + "Prediction" + os.sep + org_img_list[org_img_list_index],
+                                new_image)
 
-                org_img_list_index+=1
+                #except:
+                #    cv2.imwrite(test_path + os.sep + "Prediction" + os.sep + org_img_list[org_img_list_index],
+                #                new_image)
+
+                org_img_list_index += 1
                 img_nr = 0
 
         K.clear_session()

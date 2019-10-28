@@ -14,8 +14,8 @@ class MitoSegNet
 
 """
 
-
 import os
+import re
 import cv2
 import numpy as np
 import pandas as pd
@@ -26,28 +26,10 @@ from time import time
 from math import sqrt
 from skimage.morphology import remove_small_objects
 from scipy.ndimage import label
-from screeninfo import get_monitors
-from tkinter import *
 
-
-class GPU_or_CPU:
-
-    def __init__(self, mode):
-
-        self.mode = mode
-
-    def ret_mode(self):
-
-        if self.mode == "GPU":
-            print("Train / Predict on GPU")
-
-        elif self.mode == "CPU":
-            print("Train / Predict on CPU")
-            os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
-            os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
-
-        return self.mode
-
+print("Train / Predict on CPU")
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 
 from keras.layers import Input, concatenate, Conv2D, MaxPooling2D, UpSampling2D, Activation, BatchNormalization
 from keras.models import Model
@@ -56,12 +38,8 @@ from keras.initializers import RandomNormal as gauss
 from keras import backend as K
 from keras import losses
 from keras.callbacks import ModelCheckpoint, EarlyStopping, CSVLogger, TensorBoard
-import tensorflow as tf
 
-# ignoring deprecation warnings
-tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
-
-from Training_DataGenerator import *
+from MitoS_Training_DataGenerator import *
 
 
 class MitoSegNet:
@@ -346,11 +324,20 @@ class MitoSegNet:
             first_ep = 0
 
         else:
-            prev_csv_file = pd.read_csv(self.path + os.sep + model_name + 'training_log.csv')
-            first_ep = len(prev_csv_file)
+            if os.path.isfile(self.path + os.sep + model_name + 'training_log.csv'):
 
-            if prev_csv_file.shape[1] > 7:
-                prev_csv_file = prev_csv_file.drop(prev_csv_file.columns[[0]], axis=1)
+                prev_csv = True
+
+                prev_csv_file = pd.read_csv(self.path + os.sep + model_name + 'training_log.csv')
+                first_ep = len(prev_csv_file)
+
+                if prev_csv_file.shape[1] > 7:
+                    prev_csv_file = prev_csv_file.drop(prev_csv_file.columns[[0]], axis=1)
+
+            else:
+
+                prev_csv = False
+
 
         csv_logger = CSVLogger(self.path + os.sep + model_name + 'training_log.csv')
 
@@ -380,7 +367,7 @@ class MitoSegNet:
             csv_file["epoch"] = list(range(1, len(csv_file) + 1))
             last_ep = len(csv_file)
 
-        if new_ex == "Existing":
+        if new_ex == "Existing" and prev_csv == True:
 
             frames = [prev_csv_file, csv_file]
             merged = pd.concat(frames, names=[])
@@ -391,17 +378,16 @@ class MitoSegNet:
 
             merged.to_csv(self.path + os.sep + model_name + 'training_log.csv')
 
-
-        info_file = open(self.path + os.sep + model_name + str(first_ep) + "-" + str(last_ep) + "_train_info.txt", "w")
-        info_file.write("Learning rate: " + str(learning_rate)+
-                        "\nBatch size: " + str(batch_size)+
-                        "\nClass balance weight factor: " + str(vbal))
-        info_file.close()
+        if new_ex == "New":
+            info_file = open(self.path + os.sep + model_name + str(first_ep) + "-" + str(last_ep) + "_train_info.txt",
+                             "w")
+            info_file.write("Learning rate: " + str(learning_rate) +
+                            "\nBatch size: " + str(batch_size) +
+                            "\nClass balance weight factor: " + str(vbal))
 
         K.clear_session()
 
-
-    def predict(self, test_path, wmap, tile_size, model_name, pretrain, min_obj_size, ps_filter):
+    def predict(self, test_path, wmap, tile_size, model_name, pretrain, min_obj_size, ps_filter, x_res, y_res):
 
         K.clear_session()
 
@@ -752,15 +738,6 @@ class MitoSegNet:
                 ############################################
 
                 if ps_filter == "1":
-
-                    screen_res = str(get_monitors()[0])
-                    screen_res = (screen_res.split("(")[1])
-
-                    x_res = int(screen_res.split("x")[0])
-
-                    y_res = screen_res.split("x")[1]
-                    y_res = int(y_res.split("+")[0])
-
 
                     cv2.namedWindow('Prediction', cv2.WINDOW_NORMAL)
                     cv2.namedWindow('Original', cv2.WINDOW_NORMAL)

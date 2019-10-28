@@ -1,12 +1,12 @@
-# MitoSegNet Documentation
+# MitoSegNet segmentation tool documentation
 
 ---
 
-### The MitoSegNet an easy-to-use GUI-based segmentation tool that enables biologists to use a convolutional neural network to segment objects of interest in 2d microscopy images. 
+### The MitoSegNet segmentation tool an easy-to-use GUI-based segmentation tool that enables biologists to use a convolutional neural network to segment objects of interest in 2d microscopy images. 
 
 ---
 
-## Before running the MitoSegNet
+## Before running the MitoSegNet segmentation tool
 
 If you have a CUDA-capable GPU (all Nvidia GPUs from the G8x series onwards, including GeForce, Quadro and Tesla), then you will need to download the GPU-enabled version of the MitoSegNet. You will furthermore have to download 
 and install CUDA 10.0 and cuDNN 7.6.1. 
@@ -14,7 +14,7 @@ and install CUDA 10.0 and cuDNN 7.6.1.
 If you do not have a CUDA-capable GPU then you can alternatively download the CPU-enabled MitoSegNet, which will run without CUDA or cuDNN. Be aware that running the MitoSegNet on the CPU will be, depending on your CPU performance, 
 slower than the GPU version and it is not recommended to use this version for training on large data as this will likely take very long. 
 
-To get the best possible experience and results, we recommend to download the GPU-enabled MitoSegNet. 
+To get the best possible experience and results, we recommend to download the GPU-enabled MitoSegNet segmentation tool. 
 
 ### Installing CUDA 10.0 
 
@@ -31,7 +31,7 @@ https://developer.nvidia.com/rdp/form/cudnn-download-survey
 Be aware that the memory of your GPU limits the size of your images used for training as well as the batch size. In case training or prediction stop due to an out-of-memory error, consider reducing the size of your input images
 or decrease the batch size. 
 
-## Running the MitoSegNet
+## Running the MitoSegNet segmentation tool
 
 ## Easy Mode
 
@@ -111,7 +111,7 @@ Start with generating the training data.
 * Specify learning rate: the learning rate controls how quickly or slowly a neural network model learns a problem
 * Specify batch size: select the number of tiles that are fed into the network each iteration. The maximum batch size is limited by your GPU memory
 * Use weight map: be aware that using a weight map will increase GPU memory usage during training
-* Specify class balance weight factor: the class balance weight factor can correct for imbalanced classes, which is often the case for segmentented microscopy images (more background than object pixels). The MitoSegNet calculates the foreground to background pixel ratio and can be used to determine an appriopriate class balance weight factor
+* Specify class balance weight factor: the class balance weight factor can correct for imbalanced classes, which is often the case for segmentented microscopy images (more background than object pixels). The MitoSegNet segmentation tool calculates the foreground to background pixel ratio and can be used to determine an appriopriate class balance weight factor
 
 ### Class balance weight factor calculation example 
 
