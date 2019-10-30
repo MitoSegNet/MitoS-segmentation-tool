@@ -19,17 +19,31 @@ class AnalyseData:
 
         table = pd.read_csv(filepath)
 
-        fig = plt.figure()
-        sb.lineplot(x=table["epoch"], y=table[metric], color="blue", linewidth=2)
-        p = sb.lineplot(x=table["epoch"], y=table["val_" + metric], color="orange", linewidth=2)
+        def plot():
 
-        p.set_ylabel(str_metric, fontsize=16)
-        p.set_xlabel("Epoch", fontsize=16)
+            fig = plt.figure()
+            sb.lineplot(x=table["epoch"], y=table[metric], color="blue", linewidth=2)
+            p = sb.lineplot(x=table["epoch"], y=table["val_" + metric], color="orange", linewidth=2)
 
-        p.tick_params(axis="x", labelsize=16)
-        p.tick_params(axis="y", labelsize=16)
+            p.set_ylabel(str_metric, fontsize=16)
+            p.set_xlabel("Epoch", fontsize=16)
 
-        plt.legend(('Training', 'Validation'), prop={"size": 12})
+            p.tick_params(axis="x", labelsize=16)
+            p.tick_params(axis="y", labelsize=16)
+
+            plt.legend(('Training', 'Validation'), prop={"size": 12})
+
+        try:
+            temp = table[metric]
+            plot()
+
+        except KeyError:
+
+            if metric == "acc":
+                metric = "accuracy"
+
+            plot()
+
 
         if aut == False:
             plt.show()
