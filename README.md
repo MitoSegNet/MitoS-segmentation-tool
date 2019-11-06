@@ -1,20 +1,20 @@
-# MitoSegNet segmentation tool documentation
+# MitoS segmentation tool documentation
 
 ---
 
-### The MitoSegNet segmentation tool an easy-to-use GUI-based segmentation tool that enables biologists to use a convolutional neural network to segment objects of interest in 2d microscopy images. 
+### The MitoS segmentation tool an easy-to-use GUI-based segmentation tool that enables biologists to use a convolutional neural network to segment objects of interest in 2d microscopy images. 
 
 ---
 
-## Before running the MitoSegNet segmentation tool
+## Before running the MitoS segmentation tool
 
-If you have a CUDA-capable GPU (all Nvidia GPUs from the G8x series onwards, including GeForce, Quadro and Tesla), then you will need to download the GPU-enabled version of the MitoSegNet. You will furthermore have to download 
+If you have a CUDA-capable GPU (all Nvidia GPUs from the G8x series onwards, including GeForce, Quadro and Tesla), then you will need to download the GPU-enabled version of the MitoS. You will furthermore have to download 
 and install CUDA 10.0 and cuDNN 7.6.1. 
 
-If you do not have a CUDA-capable GPU then you can alternatively download the CPU-enabled MitoSegNet, which will run without CUDA or cuDNN. Be aware that running the MitoSegNet on the CPU will be, depending on your CPU performance, 
+If you do not have a CUDA-capable GPU then you can alternatively download the CPU-enabled MitoS, which will run without CUDA or cuDNN. Be aware that running the MitoS on the CPU will be, depending on your CPU performance, 
 slower than the GPU version and it is not recommended to use this version for training on large data as this will likely take very long. 
 
-To get the best possible experience and results, we recommend to download the GPU-enabled MitoSegNet segmentation tool. 
+To get the best possible experience and results, we recommend to download the GPU-enabled MitoS segmentation tool. 
 
 ### Installing CUDA 10.0 
 
@@ -31,16 +31,20 @@ https://developer.nvidia.com/rdp/form/cudnn-download-survey
 Be aware that the memory of your GPU limits the size of your images used for training as well as the batch size. In case training or prediction stop due to an out-of-memory error, consider reducing the size of your input images
 or decrease the batch size. 
 
-## Running the MitoSegNet segmentation tool
+Be aware that TensorFlow allocates the GPU memory during the lifetime of the MitoS process, which means that if you wish to run multiple modules that use the GPU memorz, you must first close and then restart the tool.
 
-## Easy Mode
+Once the MitoS tool modules have been started using either the GPU or CPU mode, the tool must be closed and restarted if the processing mode should be changed.  
 
-If you are unfamiliar with deep learning concepts such as batch size, learning rate or augmentation operations, then it is recommended to use the Easy Mode, in which most of the deep learning parameters are pre-set. 
+## Running the MitoS segmentation tool
 
-### Predict on pretrained model
+## Basic Mode
+
+If you are unfamiliar with deep learning concepts such as batch size, learning rate or augmentation operations, then it is recommended to use the Basic Mode, in which most of the deep learning parameters are pre-set. 
+
+### Predict on pretrained MitoSegNet model
 
 * Select directory in which 8-bit raw images are stored: Images have to be 8-bit, tif format and single plane. Use the macro MitoSegNet_PreProcessing.ijm for automated conversion of a large number of images (Prerequisite for macro usage is installation of Bio-Formats plugin on Fiji)
-* Select pretrained_model_656.hdf5 (which can be found in installation folder)
+* Select MitoSegNet_segmentation_model_with_weight_map_656_.hdf5 (which can be found in installation folder)
 * Enter minimum object size (in pixels) to exclude noise from the final segmentation 
 * Depending if you have all images in one folder, or multiple set of images in sub-folders you can select to apply the model to one folder or multiple folders (Folder > Subfolder > Images)
 * Select to predict on GPU or CPU (only on GPU version)
@@ -50,14 +54,14 @@ Once all entries are filled, click on "Start prediction" and wait until a Done w
 
 If segmentation with a pretrained model did not generate good results you can try to finetune the pretrained model to your own data
 
-### Finetune pretrained model
+### Finetune pretrained MitoSegNet model
 
 Select "New" if you are starting a new finetuning project or "Existing" if you want to continue to work on a previously generated finetuning project. 
 
 * Specify name of the finetuning project folder
 * Select directory in which 8-bit raw images are stored:
 * Select directory in which hand-labelled (ground truth) images are stored 
-* Select pretrained_model_656.hdf5
+* Select MitoSegNet_segmentation_model_with_weight_map_656_.hdf5
 * Specify the number of augmentations (defines the number of times the original image will be duplicated and augmented. Start with a minimum of 10 augmentations per image. Increase until results no longer improve)
 * Specify the number of epochs (defines the repetitions the training process will run through to learn how to segment the images based on the new input)
 * Select to train on GPU or CPU (only on GPU version)
@@ -111,7 +115,7 @@ Start with generating the training data.
 * Specify learning rate: the learning rate controls how quickly or slowly a neural network model learns a problem
 * Specify batch size: select the number of tiles that are fed into the network each iteration. The maximum batch size is limited by your GPU memory
 * Use weight map: be aware that using a weight map will increase GPU memory usage during training
-* Specify class balance weight factor: the class balance weight factor can correct for imbalanced classes, which is often the case for segmentented microscopy images (more background than object pixels). The MitoSegNet segmentation tool calculates the foreground to background pixel ratio and can be used to determine an appriopriate class balance weight factor
+* Specify class balance weight factor: the class balance weight factor can correct for imbalanced classes, which is often the case for segmentented microscopy images (more background than object pixels). The MitoS segmentation tool calculates the foreground to background pixel ratio and can be used to determine an appriopriate class balance weight factor
 
 ### Class balance weight factor calculation example 
 

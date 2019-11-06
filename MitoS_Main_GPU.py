@@ -8,8 +8,8 @@ class Control
 class Advanced Mode
     Contains all functions necessary for the advanced mode
 
-class Easy Mode
-    Contains all function necessary for the easy mode
+class Basic Mode
+    Contains all function necessary for the basic mode
 
 """
 
@@ -50,7 +50,7 @@ class Control:
     # opens link to documentation of how to use the program
     def help(self):
 
-        webbrowser.open_new("https://github.com/bio-chris/MitoSegNet")
+        webbrowser.open_new("https://github.com/MitoSegNet/MitoS-segmentation-tool")
 
     # open new window with specified width and height
     def new_window(self, window, title, width, height):
@@ -243,14 +243,13 @@ class Control:
             for i, subfolders in enumerate(os.listdir(datapath)):
 
                 pred_mitosegnet = MitoSegNet(modelpath, img_rows=tile_size, img_cols=tile_size, org_img_rows=y[i],
-                                           org_img_cols=x[i])
-
+                                             org_img_cols=x[i])
 
                 if not os.path.lexists(datapath + os.sep + subfolders + os.sep + "Prediction"):
                     os.mkdir(datapath + os.sep + subfolders + os.sep + "Prediction")
 
                 pred_mitosegnet.predict(datapath + os.sep + subfolders, False,
-                                        tile_size, model_file, pretrain, min_obj_size, ps_filter)
+                                        tile_size, model_file, pretrain, min_obj_size, ps_filter, x_res, y_res)
 
         messagebox.showinfo("Done", "Prediction successful! Check " + datapath + os.sep +
                                     "Prediction" + " for segmentation results", parent=window)
@@ -802,7 +801,7 @@ class AdvancedMode(Control):
     ##########################################
 
 
-class EasyMode(Control):
+class BasicMode(Control):
 
     """
     """
@@ -910,8 +909,8 @@ class EasyMode(Control):
         self.new_window(pre_ft_pt_root, "MitoS Navigator - Finetune pretrained MitoSegNet model", 250, 380)
         self.small_menu(pre_ft_pt_root)
 
-        self.place_button(pre_ft_pt_root, "New", easy_mode.new_finetune_pretrained, 45, 50, 130, 150)
-        self.place_button(pre_ft_pt_root, "Existing", easy_mode.cont_finetune_pretrained, 45, 200, 130, 150)
+        self.place_button(pre_ft_pt_root, "New", basic_mode.new_finetune_pretrained, 45, 50, 130, 150)
+        self.place_button(pre_ft_pt_root, "Existing", basic_mode.cont_finetune_pretrained, 45, 200, 130, 150)
 
     # continue on existing finetuning project
     def cont_finetune_pretrained(self):
@@ -1143,7 +1142,7 @@ class EasyMode(Control):
 if __name__ == '__main__':
 
     control_class = Control()
-    easy_mode = EasyMode()
+    basic_mode = BasicMode()
     advanced_mode = AdvancedMode()
 
     root = Tk()
@@ -1160,13 +1159,13 @@ if __name__ == '__main__':
     control_class.place_button(root, "Continue working on\nexisting project", advanced_mode.cont_project,
                                215, 220, 130, 150)
 
-    # easy mode
+    # basic mode
 
-    control_class.place_text(root, "Easy Mode", 90, 20, None, None)
+    control_class.place_text(root, "Basic Mode", 90, 20, None, None)
     control_class.place_text(root, "Use a pretrained model", 55, 40, None, None)
 
-    control_class.place_button(root, "Predict on pretrained\nMitoSegNet model", easy_mode.predict_pretrained, 45, 70, 130, 150)
-    control_class.place_button(root, "Finetune pretrained\nMitoSegNet model", easy_mode.pre_finetune_pretrained, 45, 220, 130, 150)
+    control_class.place_button(root, "Predict on pretrained\nMitoSegNet model", basic_mode.predict_pretrained, 45, 70, 130, 150)
+    control_class.place_button(root, "Finetune pretrained\nMitoSegNet model", basic_mode.pre_finetune_pretrained, 45, 220, 130, 150)
 
     root.mainloop()
 
