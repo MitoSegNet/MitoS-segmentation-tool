@@ -2,7 +2,9 @@
 
 ---
 
-### The MitoS segmentation tool an easy-to-use GUI-based segmentation tool that enables biologists to use a convolutional neural network to segment objects of interest in 2d microscopy images. 
+### The MitoS segmentation tool is an easy-to-use GUI-based segmentation tool that enables biologists to use a pretrained deep learning model (MitoSegNet) to segment objects of interest in 2d microscopy images. 
+
+To download the pretrained model please visit https://zenodo.org/deposit/3539340
 
 ---
 
@@ -43,8 +45,8 @@ If you are unfamiliar with deep learning concepts such as batch size, learning r
 
 ### Predict on pretrained MitoSegNet model
 
-* Select directory in which 8-bit raw images are stored: Images have to be 8-bit, tif format and single plane. Use the macro MitoSegNet_PreProcessing.ijm for automated conversion of a large number of images (Prerequisite for macro usage is installation of Bio-Formats plugin on Fiji)
-* Select MitoSegNet_segmentation_model_with_weight_map_656_.hdf5 (which can be found in installation folder)
+* Select the directory in which 8-bit raw images are stored: Images have to be 8-bit, tif format and single plane. Use the macro MitoSegNet_PreProcessing.ijm for automated conversion of a large number of images (Prerequisite for macro usage is installation of Bio-Formats plugin on Fiji)
+* Select the MitoSegNet_model.hdf5 (which can be downloaded at https://zenodo.org/deposit/3539340)
 * Enter minimum object size (in pixels) to exclude noise from the final segmentation 
 * Depending if you have all images in one folder, or multiple set of images in sub-folders you can select to apply the model to one folder or multiple folders (Folder > Subfolder > Images)
 * Select to predict on GPU or CPU (only on GPU version)
@@ -61,7 +63,7 @@ Select "New" if you are starting a new finetuning project or "Existing" if you w
 * Specify name of the finetuning project folder
 * Select directory in which 8-bit raw images are stored:
 * Select directory in which hand-labelled (ground truth) images are stored 
-* Select MitoSegNet_segmentation_model_with_weight_map_656_.hdf5
+* Select the MitoSegNet_model.hdf5
 * Specify the number of augmentations (defines the number of times the original image will be duplicated and augmented. Start with a minimum of 10 augmentations per image. Increase until results no longer improve)
 * Specify the number of epochs (defines the repetitions the training process will run through to learn how to segment the images based on the new input)
 * Select to train on GPU or CPU (only on GPU version)

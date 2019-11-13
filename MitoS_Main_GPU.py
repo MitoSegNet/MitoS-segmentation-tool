@@ -692,7 +692,17 @@ class AdvancedMode(Control):
 
             if dir_data_path_prediction.get() != "" and found.get() == 1 and dir_data_path_test_prediction.get() != "":
 
-                tile_size = int(model_name.get().split("_")[-2])
+                try:
+
+                    ts_path = dir_data_path_prediction.get() + os.sep + "train" + os.sep + "image"
+
+                    tile_size, tile_size = self.get_image_info(ts_path, True, False)
+
+                except:
+
+                    print("Could not retrieve tile size. Please make sure the images used for training are located "
+                          "under" + ts_path)
+
 
                 if batch_var.get() == "One folder":
 
@@ -861,8 +871,7 @@ class BasicMode(Control):
 
             if datapath.get() != "" and modelpath.get() != "":
 
-                # model file must have modelname_tilesize_
-                tile_size = int(modelpath.get().split("_")[-2])
+                tile_size = 656
 
                 model_path, model_file = os.path.split(modelpath.get())
 
@@ -874,11 +883,6 @@ class BasicMode(Control):
 
                     y, x = self.get_image_info(datapath.get(), True, True)
 
-                # todo
-                # get x and y resolution of screen, works for linux and windows
-                # (does not yet account for multiple screens)
-
-                # still needs to be tested for mac
                 try:
 
                     x_res = p_pt_root.winfo_screenwidth()
@@ -947,9 +951,7 @@ class BasicMode(Control):
                 file_list = os.listdir(ft_datapath.get())
                 model_list = [i for i in file_list if ".hdf5" in i and not ".csv" in i]
 
-                # ignore tile size from project folder and rely instead on tile size noted on model file
                 tile_size, y, x, tiles_list, images_list = self.get_image_info(ft_datapath.get(), False, False)
-                tile_size = int(model_list[0].split("_")[-2])
 
                 train_mitosegnet = MitoSegNet(ft_datapath.get(), img_rows=tile_size,
                                               img_cols=tile_size, org_img_rows=y, org_img_cols=x)
@@ -1060,7 +1062,7 @@ class BasicMode(Control):
                     messagebox.showinfo("Error", "Folder already exists", parent=ft_pt_root)
 
                 # split label and 8-bit images into tiles
-                tile_size = int(modelpath.get().split("_")[-2])
+                tile_size = 656
 
                 y, x = self.get_image_info(img_datapath.get(), True, False)
 
@@ -1084,11 +1086,7 @@ class BasicMode(Control):
                 aug = Augment(parent_path + os.sep + folder_name.get(), shear_range, rotation_range, zoom_range,
                               brightness_range, hf, vf, width_shift, height_shift)
 
-                # generate weight map if weight map model was chosen
-                if "with_weight_map" in modelpath.get():
-                    wmap = True
-                else:
-                    wmap = False
+                wmap = True
 
                 n_aug = augmentations.get()
 

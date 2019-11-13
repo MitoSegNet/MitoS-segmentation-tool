@@ -166,7 +166,7 @@ class Preprocess:
 
         path_train = path + os.sep + self.train_path
         path_label = path + os.sep + self.label_path
-        path_raw = path + os.sep  + self.raw_path
+        path_raw = path + os.sep + self.raw_path
 
         for img in os.listdir(path_raw + os.sep + "image"):
 
@@ -184,7 +184,6 @@ class Preprocess:
 
             y, x = read_img.shape
 
-            # todo
             #if tile_size > max(y,x)/2+16 and n_tiles!=1:
 
             if tile_size > x:
