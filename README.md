@@ -33,7 +33,7 @@ https://developer.nvidia.com/rdp/form/cudnn-download-survey
 Be aware that the memory of your GPU limits the size of your images used for training as well as the batch size. In case training or prediction stop due to an out-of-memory error, consider reducing the size of your input images
 or decrease the batch size. 
 
-Be aware that TensorFlow allocates the GPU memory during the lifetime of the MitoS process, which means that if you wish to run multiple modules that use the GPU memorz, you must first close and then restart the tool.
+Be aware that TensorFlow allocates the GPU memory during the lifetime of the MitoS process, which means that if you wish to run multiple modules that use the GPU memory, you must first close and then restart the tool.
 
 Once the MitoS tool modules have been started using either the GPU or CPU mode, the tool must be closed and restarted if the processing mode should be changed.  
 
