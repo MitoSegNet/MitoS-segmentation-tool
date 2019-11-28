@@ -4,7 +4,15 @@
 
 ### The MitoS segmentation tool is an easy-to-use GUI-based segmentation tool that enables biologists to use a pretrained deep learning model (MitoSegNet) to segment objects of interest in 2d microscopy images. 
 
-To download the pretrained model please visit https://zenodo.org/deposit/3539340
+To download the pretrained model please visit https://zenodo.org/record/3539340#.Xd-oN9V7lPY
+
+To download the MitoS (GPU) for Windows tool please visit https://zenodo.org/record/3549840#.Xd-ol9V7lPY
+
+To download the MitoS (CPU) for Windows tool please visit https://zenodo.org/record/3553597#.Xd-opNV7lPY
+
+To download the MitoS (GPU) for Linux tool please visit
+
+To download the MitoS (CPU) for Linux tool please visit
 
 ---
 
