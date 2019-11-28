@@ -18,23 +18,12 @@ To download the MitoS (CPU) for Linux tool please visit
 
 ## Before running the MitoS segmentation tool
 
-If you have a CUDA-capable GPU (all Nvidia GPUs from the G8x series onwards, including GeForce, Quadro and Tesla), then you will need to download the GPU-enabled version of the MitoS. You will furthermore have to download 
-and install CUDA 10.0 and cuDNN 7.6.1. 
+If you have a CUDA-capable GPU (all Nvidia GPUs from the G8x series onwards, including GeForce, Quadro and Tesla), then it is recommended to download the GPU-enabled version of the MitoS. 
 
-If you do not have a CUDA-capable GPU then you can alternatively download the CPU-enabled MitoS, which will run without CUDA or cuDNN. Be aware that running the MitoS on the CPU will be, depending on your CPU performance, 
+If you do not have a CUDA-capable GPU then you can alternatively download the CPU-enabled MitoS, which will run on systems that do not have a CUDA-capable GPU. Be aware that running the MitoS on the CPU will be, depending on your CPU performance, 
 slower than the GPU version and it is not recommended to use this version for training on large data as this will likely take very long. 
 
 To get the best possible experience and results, we recommend to download the GPU-enabled MitoS segmentation tool. 
-
-### Installing CUDA 10.0 
-
-https://developer.nvidia.com/cuda-10.0-download-archive
-
-### Installing cuDNN 7.6.1 
-
-To access the different versions of cuDNN click on the link below and create an account.  
-
-https://developer.nvidia.com/rdp/form/cudnn-download-survey
 
 ### GPU usage
 
@@ -54,7 +43,7 @@ If you are unfamiliar with deep learning concepts such as batch size, learning r
 ### Predict on pretrained MitoSegNet model
 
 * Select the directory in which 8-bit raw images are stored: Images have to be 8-bit, tif format and single plane. Use the macro MitoSegNet_PreProcessing.ijm for automated conversion of a large number of images (Prerequisite for macro usage is installation of Bio-Formats plugin on Fiji)
-* Select the MitoSegNet_model.hdf5 (which can be downloaded at https://zenodo.org/deposit/3539340)
+* Select the MitoSegNet_model.hdf5 (which can be downloaded at https://zenodo.org/record/3539340#.Xd-oN9V7lPY)
 * Enter minimum object size (in pixels) to exclude noise from the final segmentation 
 * Depending if you have all images in one folder, or multiple set of images in sub-folders you can select to apply the model to one folder or multiple folders (Folder > Subfolder > Images)
 * Select to predict on GPU or CPU (only on GPU version)
