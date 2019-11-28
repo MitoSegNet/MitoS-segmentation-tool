@@ -10,9 +10,9 @@ To download the MitoS (GPU) for Windows tool please visit https://zenodo.org/rec
 
 To download the MitoS (CPU) for Windows tool please visit https://zenodo.org/record/3553597#.Xd-opNV7lPY
 
-To download the MitoS (GPU) for Linux tool please visit
+To download the MitoS (GPU) for Linux tool please visit https://zenodo.org/record/3556431#.XeAHNtV7lPY
 
-To download the MitoS (CPU) for Linux tool please visit
+To download the MitoS (CPU) for Linux tool please visit https://zenodo.org/record/3556714#.XeAHUdV7lPY
 
 ---
 
