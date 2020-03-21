@@ -2,25 +2,26 @@
 
 ---
 
-### The MitoS segmentation tool is an easy-to-use GUI-based segmentation tool that enables biologists to use a pretrained deep learning model (MitoSegNet) to segment objects of interest in 2d microscopy images. 
+### The MitoS tool is an easy-to-use GUI-based segmentation tool that utilizes the power of deep learning. The Basic Mode enables biologists to use a pretrained deep learning model (MitoSegNet) to segment mitochondria in 2D fluorescence microscopy images. The Advanced Mode offers users the possibility to create their own deep learning model.
 
 To download the pretrained model please visit https://zenodo.org/record/3539340#.Xd-oN9V7lPY
 
-To download the MitoS (GPU) for Windows tool please visit https://zenodo.org/record/3549840#.Xd-ol9V7lPY
+To download the MitoS (GPU) for Windows tool visit https://zenodo.org/record/3549840#.Xd-ol9V7lPY
 
-To download the MitoS (CPU) for Windows tool please visit https://zenodo.org/record/3553597#.Xd-opNV7lPY
+To download the MitoS (CPU) for Windows tool visit https://zenodo.org/record/3553597#.Xd-opNV7lPY
 
-To download the MitoS (GPU) for Linux tool please visit https://zenodo.org/record/3556431#.XeAHNtV7lPY
+To download the MitoS (GPU) for Linux tool visit https://zenodo.org/record/3556431#.XeAHNtV7lPY
 
-To download the MitoS (CPU) for Linux tool please visit https://zenodo.org/record/3556714#.XeAHUdV7lPY
+To download the MitoS (CPU) for Linux tool visit https://zenodo.org/record/3556714#.XeAHUdV7lPY
 
 ---
 
+
 ## Before running the MitoS segmentation tool
 
-If you have a CUDA-capable GPU (all Nvidia GPUs from the G8x series onwards, including GeForce, Quadro and Tesla), then it is recommended to download the GPU-enabled version of the MitoS. 
+If you have a CUDA-capable GPU (all Nvidia GPUs from the G8x series onwards, including GeForce, Quadro and Tesla), then it is recommended to download the GPU-enabled version of the MitoS tool. 
 
-If you do not have a CUDA-capable GPU then you can alternatively download the CPU-enabled MitoS, which will run on systems that do not have a CUDA-capable GPU. Be aware that running the MitoS on the CPU will be, depending on your CPU performance, 
+If you do not have a CUDA-capable GPU then you can alternatively download the CPU-enabled MitoS executable, which will run on systems that do not have a CUDA-capable GPU. Be aware that running the MitoS on the CPU will be, depending on your CPU performance, 
 slower than the GPU version and it is not recommended to use this version for training on large data as this will likely take very long. 
 
 To get the best possible experience and results, we recommend to download the GPU-enabled MitoS segmentation tool. 
@@ -129,4 +130,8 @@ we can set the weight factor to 1/19 which is roughly 0.05. That means that only
 * Enter minimum object size (in pixels) to exclude noise from the final segmentation 
 * Select to train on GPU or CPU (only on GPU version)
 * Post-segmentation filtering: shows each generated segmentation automatically to allow User to choose which masks to save and which to discard
+
+### Issues & Bugs
+
+If you encounter any technical difficulties please go to https://github.com/MitoSegNet/MitoS-segmentation-tool/issues and describe the problem so I can address the issue. 
 
