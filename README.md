@@ -14,6 +14,8 @@ To download the MitoS (GPU) for Linux tool visit https://zenodo.org/record/35564
 
 To download the MitoS (CPU) for Linux tool visit https://zenodo.org/record/3556714#.XeAHUdV7lPY
 
+The files for Linux have no extension and this should either be kept that way or if needed the .sh suffix can be added 
+
 ---
 
 
