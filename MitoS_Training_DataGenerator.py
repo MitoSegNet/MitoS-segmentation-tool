@@ -106,6 +106,10 @@ class Preprocess:
 
             bs_x = y_new - x
 
+        if x == y:
+            while x_new % 16 != 0:
+                x_new+=2
+            bs_x = x_new-x_old
 
         displ_values.add("Tile size (px): " + str(x+bs_x) + " | Number of tiles: " + str(1))
         real_values.append((x+bs_x, 1))
