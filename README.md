@@ -18,6 +18,10 @@ To download the MitoS (CPU) for Linux tool visit https://zenodo.org/record/35567
 
 The files for Linux have no extension and this should either be kept that way or if needed the .sh suffix can be added. It is recommended to execute the files in the terminal to get additional information in addition to running the graphical user interface.  
 
+## Note for MacOS usage
+
+I am still currently developing a MitoSegNet executable version for MacOS but it is not yet completed. Until then I would kindly refer you to a section below, which describes how to install Python and all relevant libraries to run the code directly for your system. 
+
 ---
 
 
@@ -139,3 +143,14 @@ we can set the weight factor to 1/19 which is roughly 0.05. That means that only
 
 If you encounter any technical difficulties please go to https://github.com/MitoSegNet/MitoS-segmentation-tool/issues and describe the problem so I can address the issue. 
 
+# How to run the tool from the code directly 
+
+Download the MitoS-segmentation-tool repository through the command line via git clone https://github.com/MitoSegNet/MitoS-segmentation-tool.git or download a zipped version of the repository. 
+
+Go to https://www.anaconda.com/products/individual and download the Anaconda installer for your operating system. 
+
+Additional libraries that need to be installed to run the MitoS-segmentation-tool are:
+
+* keras 2.3.0
+* tensorflow 1.14.0 (or tensorflow-gpu if you plan to use your GPU)
+* python-opencv 4.2.0.32
