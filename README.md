@@ -16,7 +16,7 @@ To download the MitoS (CPU) for Linux tool visit https://zenodo.org/record/35567
 
 ## Bug found in Advanced Mode, Create augmented data
 
-The software currently cannot automatically create a list of possible tile sizes if the input image is of equal x and y dimensions. The bug has already been fixed in the Python code but not yet in the executable files. 
+The software currently cannot automatically create a list of possible tile sizes if the input image is of equal x and y dimensions. The bug has already been fixed in the Python code and in the executable files for Windows but not yet in the executable files for Linux. 
 
 ## Note for Linux usage
 
