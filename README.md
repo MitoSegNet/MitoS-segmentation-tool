@@ -14,9 +14,9 @@ To download the MitoS (GPU) for Linux tool visit https://zenodo.org/record/35564
 
 To download the MitoS (CPU) for Linux tool visit https://zenodo.org/record/3556714#.XeAHUdV7lPY
 
-## Bug found in Advanced Mode, Create augmented data
+## Bug found in Advanced Mode, Create augmented data (Linux executables)
 
-The software currently cannot automatically create a list of possible tile sizes if the input image is of equal x and y dimensions. The bug has already been fixed in the Python code and in the executable files for Windows but not yet in the executable files for Linux. 
+The executable versions of the MitoS tool for Linux can currently not automatically create a list of possible tile sizes if the input image is of equal x and y dimensions. I currently do not have access to any Linux-based OS to convert the Python code so I would kindly refer you to run the MitoS tool directly from the code. 
 
 ## Note for Linux usage
 
