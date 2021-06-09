@@ -1,5 +1,7 @@
 # MitoS segmentation tool documentation
 
+Please find the paper here: https://www.cell.com/iscience/fulltext/S2589-0042(20)30793-8
+
 ---
 
 ### The MitoS tool is an easy-to-use GUI-based segmentation tool that utilizes the power of deep learning. The Basic Mode enables biologists to use a pretrained deep learning model (MitoSegNet) to segment mitochondria in 2D fluorescence microscopy images. The Advanced Mode offers users the possibility to create their own deep learning model.
